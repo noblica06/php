@@ -35,9 +35,10 @@ class Home extends Controller {
             
               if (empty($nameErr) && empty($emailErr) && empty($bodyErr)) {
 
-                $sql = "INSERT INTO comment (name, email, body) VALUES ('$name', '$email', '$body')";
-                if (mysqli_query($this->connection, $sql)) {
-
+                $sql = "INSERT INTO comment (name, email, body) VALUES (?, ?, ?)";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sss", $name, $email, $body);
+                if ($stmt->execute()) {
                   header('Location: php/public/home/index');
                 } else {
                   echo 'Error: ' . mysqli_error($this->connection);

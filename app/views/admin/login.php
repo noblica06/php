@@ -13,5 +13,7 @@ $username = $password = '';
         <input type="password" class="form-control" id="password" name="password" value="<?php echo $password; ?>">
     </div>
     <br>
-    <input type="submit" name="submit" value="Submit">
+    <div class="mb-3 text-center">
+        <input type="submit" name="submit" value="Log In" >
+    </div>
 </form>

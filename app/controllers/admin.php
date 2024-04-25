@@ -43,13 +43,18 @@ class Admin extends Controller{
                     $stmt->bind_param("i", $commentId);
                     $stmt->execute();
                 }
-                header("Location: php/public/home/index");
+                header("Location: ''");
             } else {
                 echo "No comments selected for approval.";
             }
         } else {
             echo "Invalid request method.";
         }
+    }
+
+    public function logout(){
+        session_destroy();
+        header("Location: ''");
     }
 
     private function getCommentsFromDatabase(){
