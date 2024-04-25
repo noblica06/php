@@ -11,10 +11,8 @@ $nameErr = $emailErr = $bodyErr = '';
   <?php foreach ($data['comments'] as $item): ?>
     <div class="card my-3 w-75">
      <div class="card-body text-center">
-       <?php echo $item['Body']; ?>
-       <div class="text-secondary mt-2">By <?php echo $item[
-         'Name'
-       ]; ?></div>
+       <?php echo $item->body; ?>
+       <div class="text-secondary mt-2">By <?php echo $item->name; ?></div>
      </div>
    </div>
   <?php endforeach; ?>

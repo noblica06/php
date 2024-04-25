@@ -1,9 +1,18 @@
 <?php
 class Home extends Controller {
     public function index(){
-        $sql = 'SELECT * from comment WHERE IsApproved = FALSE';
+        $sql = 'SELECT * from comment WHERE IsApproved = TRUE';
         $result = mysqli_query($this->connection, $sql);
-        $comments = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $commentsDB = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $comments = [];
+        foreach($commentsDB as $comm){
+            $comment = $this->model('comment');
+            $comment->id = $comm['ID'];
+            $comment->name = $comm['Name'];
+            $comment->email = $comm['Email'];
+            $comment->body = $comm['Body'];
+            $comments[] = $comment;
+        }
         $this->view('/home/index',['comments' => $comments]);
     }
     public function addFeedback(){
