@@ -6,7 +6,7 @@
     <?php foreach ($data['comments'] as $item): ?>
         <div class="card my-3 w-75">
             <div class="card-header mt-2">
-                <input type='checkbox' name='approvedComments[]' value="${item->id}"> 
+                <input type='checkbox' name='approvedComments[]' value="<?php echo $item->id?>"> 
             </div>
             <div class="card-body text-center">
                 <?php echo $item->body; ?>
@@ -15,6 +15,6 @@
     </div>
     <?php endforeach; ?>
     <div class="mb-3">
-        <input type="submit" name="submit" value="Send" class="btn btn-dark w-75">
+        <input type="submit"  value="Send" class="btn btn-dark w-75">
     </div>
 </form>

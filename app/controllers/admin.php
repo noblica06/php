@@ -32,7 +32,24 @@ class Admin extends Controller{
     }
 
     public function approveComments(){
-        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            if (isset($_POST['approvedComments']) && is_array($_POST['approvedComments'])) {
+                $approvedCommentIds = $_POST['approvedComments'];
+
+                foreach ($approvedCommentIds as $commentId) {
+                    $sql = "UPDATE comment SET IsApproved = TRUE WHERE id = ?";
+                    $stmt = $this->connection->prepare($sql);
+                    $stmt->bind_param("i", $commentId);
+                    $stmt->execute();
+                }
+                header("Location: php/public/home/index");
+            } else {
+                echo "No comments selected for approval.";
+            }
+        } else {
+            echo "Invalid request method.";
+        }
     }
 
     private function getCommentsFromDatabase(){
