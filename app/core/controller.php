@@ -1,7 +1,15 @@
 <?php
 
+require_once 'database.php';
+
 class Controller 
 {
+    protected $connection;
+
+    public function __construct(){
+        $this->connection = connectDB();
+    }
+    
     public function model($model){
         require_once '../app/models/' . $model . '.php';
         return new $model();

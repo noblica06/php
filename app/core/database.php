@@ -4,9 +4,14 @@
     define('DB_PASSWORD', 'password');
     define('DB_NAME', 'php');
 
-    $connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-    if ($connection->connect_error) {
-        die('Connection failed '. $connection->connect_error);
+    function connectDB() {
+        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+    
+        return $conn;
     }
     
