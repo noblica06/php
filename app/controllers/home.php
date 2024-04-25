@@ -1,18 +1,8 @@
 <?php
 class Home extends Controller {
+  
     public function index(){
-        $sql = 'SELECT * from comment WHERE IsApproved = TRUE';
-        $result = mysqli_query($this->connection, $sql);
-        $commentsDB = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        $comments = [];
-        foreach($commentsDB as $comm){
-            $comment = $this->model('comment');
-            $comment->id = $comm['ID'];
-            $comment->name = $comm['Name'];
-            $comment->email = $comm['Email'];
-            $comment->body = $comm['Body'];
-            $comments[] = $comment;
-        }
+        $comments =  $this->getCommentsFromDatabase();
         $this->view('/home/index',['comments' => $comments]);
     }
     public function addFeedback(){
@@ -20,27 +10,22 @@ class Home extends Controller {
             if (empty($_POST['name'])) {
                 $nameErr = 'Name is required';
               } else {
-                // $name = filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $name = filter_input(
                   INPUT_POST,
                   'name',
                   FILTER_SANITIZE_FULL_SPECIAL_CHARS
                 );
               }
-            
-              // Validate email
+
               if (empty($_POST['email'])) {
                 $emailErr = 'Email is required';
               } else {
-                // $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
               }
-            
-              // Validate body
+
               if (empty($_POST['body'])) {
                 $bodyErr = 'Body is required';
               } else {
-                // $body = filter_var($_POST['body'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $body = filter_input(
                   INPUT_POST,
                   'body',
@@ -49,16 +34,30 @@ class Home extends Controller {
               }
             
               if (empty($nameErr) && empty($emailErr) && empty($bodyErr)) {
-                // add to database
+
                 $sql = "INSERT INTO comment (name, email, body) VALUES ('$name', '$email', '$body')";
                 if (mysqli_query($this->connection, $sql)) {
-                  // success
+
                   header('Location: php/public/home/index');
                 } else {
-                  // error
                   echo 'Error: ' . mysqli_error($this->connection);
                 }
               }
         }
+    }
+    private function getCommentsFromDatabase(){
+      $sql = 'SELECT * from comment WHERE IsApproved = TRUE';
+      $result = mysqli_query($this->connection, $sql);
+      $commentsDB = mysqli_fetch_all($result, MYSQLI_ASSOC);
+      $comments = [];
+      foreach($commentsDB as $comm){
+          $comment = $this->model('comment');
+          $comment->id = $comm['ID'];
+          $comment->name = $comm['Name'];
+          $comment->email = $comm['Email'];
+          $comment->body = $comm['Body'];
+          $comments[] = $comment;
+      }
+      return $comments;
     }
 }

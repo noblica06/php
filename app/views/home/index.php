@@ -1,7 +1,6 @@
 <?php
 
 $name = $email = $body = '';
-$nameErr = $emailErr = $bodyErr = '';
 ?>
 
 <?php if (empty($data['comments'])): ?>
